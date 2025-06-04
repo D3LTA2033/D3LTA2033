@@ -1,0 +1,7 @@
+- 👋 Hi, I’m @D3LTA2033
+- 👀 I’m interested in Cyber Security, Game development, Coding & Programming, talking & Calling,
+- 🌱 I’m currently learning Rupy a bit more.
+- 💞️ I’m looking to collaborate on anything rlly
+- 📫 How to reach me Discord: dominusnyx email: inroot.ceo@gmail.com & Personal: byurekli88@gmail.com
+- 😄 Pronouns: He/Him
+- ⚡ Fun fact: i have 8+ years of Expierence w many Coding Langs
