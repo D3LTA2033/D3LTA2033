@@ -1,5 +1,6 @@
-mcss | System Architect | 
+MCSS | System Architect
 
-i'm Not your average programmer & i'm Not your average cybersecurity expert.
+I’m not your average programmer.
+I’m not your average cybersecurity expert.
 
-i use linux btw.
+I get things done—and yes, I do it all on Linux.
