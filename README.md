@@ -1,4 +1,4 @@
-MCSS | System Architect
+MCSS 
 
 i just code
 
