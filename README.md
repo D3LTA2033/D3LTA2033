@@ -12,4 +12,4 @@ I get things done and yh, I do it all on a old laptop.
 
 ### [SECOND PORTFOLIO] https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/portfolio_2.md
 
-### [AI'S OPINION] 
+### [AI'S OPINION] https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/ai_opinion.md
