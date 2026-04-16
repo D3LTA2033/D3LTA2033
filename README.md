@@ -12,7 +12,8 @@ I work primarily on an older laptop, but that has never been a constraint on out
 
 * Website portfolio
   [Portfolio](https://d3lta2033.nl)
-  [Backup Site](https://portfolio-54ym.vercel.app)
+* Backup Portfolio
+  [Backup Portfolio](https://portfolio-54ym.vercel.app)
 
 ## Kernel Work
 
