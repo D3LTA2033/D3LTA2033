@@ -2,7 +2,7 @@
 
 Systems programmer. Low-level implementation focus. Execution over presentation.
 
-**C · C++ · Rust · JS/TS · Python · x86 asm**
+**C · C++ · Rust · JS · Verilog & VHDL · x86 asm**
 [d3lta2033.nl](https://d3lta2033.nl) · Discord [`@mcs.s`](https://discord.com/users/mcs.s)
 
 ---
