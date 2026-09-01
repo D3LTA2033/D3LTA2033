@@ -372,7 +372,6 @@ totalling 17,969 lines. The CLI dispatches 18 subcommands: `new add remove build
 test fmt lint doc publish search install bench profile clean doctor repl help`.
 
 `examples/hello.ae.c` is a checked-in sample of the C the backend emits.
-Built with [@ps1296](https://github.com/ps1296).
 
 </details>
 
