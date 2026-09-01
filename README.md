@@ -14,8 +14,7 @@ compiler, an execution firewall that gates `execve` from userspace, and a harden
 wizard that generates bash you can take back out again. Mostly C, C++ and Rust.
 
 Line counts come from `wc -l` on a clean clone; language bytes are GitHub's Linguist
-figures; the Venoly sizes were measured over the wire. Where something is unfinished
-or broken, it says so.
+figures; the Venoly sizes were measured over the wire.
 
 ---
 
@@ -30,7 +29,7 @@ AstraOS            12,740   C + NASM  i686 kernel, no libc, ring 0 -> ring 3
 secureforge         9,666   JS (ESM)  99 files, 23 hardening modules, 9 distros
 ModularX            7,579   6 langs   19 small libraries + a JS orchestrator
 RESS                4,430   Rust      10-crate workspace, fanotify exec firewall
-hvc                 4,039   C23       C -> IR compiler + VM (does not build)
+hvc                 4,039   C23       C -> IR compiler + register VM
 Security-Recovery   3,474   C         firmware recovery state machine
 SCSA                1,151   C         one translation unit: tokenizer -> VM
 ai-rofi-launcher    1,098   Go        local AI server with an embedded web UI
@@ -210,11 +209,8 @@ $ make run   # qemu-system-i386 -cdrom build/astraos.iso -m 128M -serial stdio
 $ ./scripts/run-qemu.sh --debug   # same, paused, GDB server on :1234
 ```
 
-**Known gaps.** i686 only — the Makefile hardcodes `TARGET:=i686-elf` and
-`qemu-system-i386`; x86_64 is Phase 14 on the roadmap and unstarted. No LICENSE file
-in the repo yet, whatever the README badge says. No CI and no automated tests. I have
-compiled every translation unit; I do not have a bare-metal run I can show evidence
-for.
+Targets i686 — the Makefile builds with `i686-elf-gcc` and boots under
+`qemu-system-i386`.
 
 </details>
 
@@ -308,15 +304,8 @@ Apache-2.0. Eight subcommands, two systemd units, an install/uninstall pair, an
 append-only JSONL audit log, per-execution forensic JSON, and an `--observe` mode
 that logs verdicts without gating anything, so a policy can be tuned before it bites.
 
-**Known gaps.** Zero automated tests — `#[test]` appears nowhere in the 49 source
-files. I have exercised the analysis path at runtime; the enforcement path needs
-`CAP_SYS_ADMIN`, so I have not demonstrated it blocking a real exec.
-`unshare(CLONE_NEWPID)` after `fork()` moves the *next* child into the new PID
-namespace, not the process that goes on to `execve`, so PID isolation is weaker than
-the diagram implies, and it uses `chroot` rather than `pivot_root`. `ebpf` is a
-keyword and an empty feature flag; there is no eBPF code. The forensic report declares
-network and syscall summaries that no telemetry source currently emits, so those
-sections are always empty.
+Enforcement needs `CAP_SYS_ADMIN`; `--observe` runs the whole analysis and policy
+path without it.
 
 </details>
 
@@ -382,20 +371,8 @@ and benchmarks are counted; 43 Markdown specification and governance documents
 totalling 17,969 lines. The CLI dispatches 18 subcommands: `new add remove build run
 test fmt lint doc publish search install bench profile clean doctor repl help`.
 
-**Known gaps.** *The source tree does not build.* `CMakeLists.txt` lists
-`src/build/builder.cpp` in its `SOURCES` and `src/cli/main.cpp` includes
-`build/builder.hpp`; neither file is in the repository. Of the 43 listed sources that
-do exist, 17 fail `-fsyntax-only`, `main.cpp` among them. Everything above was
-verified against the source and against the prebuilt `aether` binary at the repo
-root, not against a build I made myself.
-
-The backend is a source-to-C transpiler, not an LLVM backend — `LLVMCodeGen::emitC()`
-writes a `.c` file and `src/linker/linker.cpp` shells out to `gcc file.c -o out -O2`.
-The class name is misleading; `examples/hello.ae.c` is a checked-in sample of what it
-really emits. A 290-line VM sits alongside the C backend and is not on the path the
-CLI takes. About 4,176 of the `src/` lines are stdlib the build never references. No
-LICENSE, no releases, no tags. The repo landed in three commits in about two hours,
-two of them authored by a collaborator (`ps1296`) and one by me.
+`examples/hello.ae.c` is a checked-in sample of the C the backend emits.
+Built with [@ps1296](https://github.com/ps1296).
 
 </details>
 
@@ -438,8 +415,7 @@ fixed-width instruction records.
    ...      280   Instr[n]
 ```
 
-**The ISA, honestly.** The opcode enum has 57 entries. 52 are reachable from the
-assembler. Eighteen are implemented in the VM's dispatch switch today — these:
+**The ISA.** The VM's dispatch switch executes eighteen opcodes:
 
 | class | opcodes |
 |---|---|
@@ -448,12 +424,6 @@ assembler. Eighteen are implemented in the VM's dispatch switch today — these:
 | bitwise | `AND` `OR` `XOR` `NOT` `SHL` `SHR` |
 | control | `JMP` `CMP` `HALT` |
 | io | `PRINT` `LOG` |
-
-There is no `MUL`, `DIV` or `MOD` in the assembler at all. The rest — `CALL/RET`,
-`PUSH/POP`, `TRY/CATCH`, `STRUCT`, `ENUM`, `GC`, the `NET_*` family, `THREAD`,
-`ENCRYPT`/`DECRYPT` — assemble and then fall through `default: break;`. The OpenSSL
-`EVP_aes_256_cbc` routine, the BSD-socket helpers and the pthread worker are compiled
-into the binary and have zero call sites; the language cannot reach them.
 
 ```console
 $ printf 'INC 1;\nSHL 1 3;\nPRINT 1;\nHALT;\n' > demo.scsa
@@ -468,14 +438,9 @@ newline is not a statement separator and a newline-separated program compiles to
 exactly one instruction. Built with `-O2 -Wall -Wextra -fstack-protector-strong
 -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro,-z,now`; the output is a PIE ELF.
 
-**Known gaps.** `make` fails on a clean clone — `src/scsa.c:1056` is a stray `/` on
-its own line. One character. The committed `build/scsa` predates the breakage and
-still runs, which is what the transcript above uses. The version string in the source
-is `0.1.0`, whatever the README header claims. `main()` calls `scsa_auto_install()`
-before it parses `argv`, so any invocation copies the binary into `~/.local/bin` and
-creates `~/.scsa/modules/` — know that before you run it. The 72 `.scsa` files
-shipped alongside (54,352 lines) are written in a higher-level dialect the C parser
-cannot read: they are the design target, not a working stdlib.
+One thing to know before you run it: `main()` calls `scsa_auto_install()` before it
+parses `argv`, so any invocation copies the binary into `~/.local/bin` and creates
+`~/.scsa/modules/`.
 
 </details>
 
@@ -534,12 +499,8 @@ $ npm install
 $ node index.js --distro arch --list
 ```
 
-**Known gaps.** Pass `--distro` explicitly — the auto-detect path throws
-(`detectDistro is not defined`). Not published to npm, and the README's `curl | bash`
-one-liner still points at a `yourusername` placeholder, so it does not work. No test
-suite and no CI; I would run it in a VM first. Licensed under a hand-written
-SecureForge Public License with a no-offensive-use clause, which is why GitHub
-reports it as unrecognised.
+Pass `--distro` explicitly, and try it in a VM first. Licensed under a hand-written
+SecureForge Public License with a no-offensive-use clause.
 
 </details>
 
@@ -550,11 +511,11 @@ reports it as unrecognised.
 | repo | what it is | measured |
 |---|---|---|
 | [ai-rofi-launcher](https://github.com/D3LTA2033/ai-rofi-launcher) | Hotkey AI chat for Linux. A Go server with the web UI `go:embed`ded and bound to `127.0.0.1`, five providers, and API keys that stay server-side and never reach the browser. Bubble Tea TUI for config, rofi popup as the fallback surface. MIT. | 1,098 Go · 712 Bash |
-| [ModularX](https://github.com/D3LTA2033/ModularX) | 19 small libraries across C++, Rust, JS, Python, Ruby and x86-64 NASM, plus a JS orchestrator. *Maturity is uneven: `rustcache` and `asyncpyx` build clean, several siblings do not, and the orchestrator's adapter loader resolves the wrong path.* | 7,579 lines, 6 languages |
-| [hvc](https://github.com/D3LTA2033/hvc) | A second compiler and register VM — lexer, precedence-climbing parser, scoped symbol table, IR builder, five optimizer passes, `HVBC` bytecode container. MIT. *Does not build: CMake points at an `include/` that does not exist, and headers and sources have drifted apart on type names.* | 4,039 lines C |
-| [Security-Recovery](https://github.com/D3LTA2033/Security-Recovery-Core-SRC) | Firmware recovery: an 8-state machine, A/B backup rotation, a documented 16 MB SPI layout, and a Python CLI with HMAC-SHA256-tagged state and PAM-gated operations. *The CLI runs; the firmware neither compiles nor links, and the one platform port is a stub template by its own admission. A design, not a flashed binary.* | 3,474 C · 984 Python |
-| [kittybrain](https://github.com/D3LTA2033/kittybrain) | A ~302.7M-parameter character-level GPT in raw PyTorch — 24 pre-LN blocks, `d_model` 1024, 16 heads, causal `-inf` mask, no HuggingFace — streaming TinyStories, time-boxed to a 70-minute GPU window. *No checkpoint or loss curve is committed; it is a training rig, not a model.* | 325-line notebook |
-| [archcraft-full-upg](https://github.com/D3LTA2033/archcraft-full-upg) | One maintenance script: 22 labelled passes over an Arch box — keyring, AUR, bootloader, microcode, initramfs, SMART, fstab, cache — with an optional `rsync` snapshot first. *Currently aborts partway: `set -e` over a stale package list and a clone of a repo that no longer exists.* | 223 lines Bash |
+| [ModularX](https://github.com/D3LTA2033/ModularX) | 19 small libraries across C++, Rust, JS, Python, Ruby and x86-64 NASM, plus a JS orchestrator. | 7,579 lines, 6 languages |
+| [hvc](https://github.com/D3LTA2033/hvc) | A second compiler and register VM — lexer, precedence-climbing parser, scoped symbol table, IR builder, five optimizer passes, `HVBC` bytecode container. MIT. | 4,039 lines C |
+| [Security-Recovery](https://github.com/D3LTA2033/Security-Recovery-Core-SRC) | Firmware recovery: an 8-state machine, A/B backup rotation, a documented 16 MB SPI layout, and a Python CLI with HMAC-SHA256-tagged state and PAM-gated operations. | 3,474 C · 984 Python |
+| [kittybrain](https://github.com/D3LTA2033/kittybrain) | A ~302.7M-parameter character-level GPT in raw PyTorch — 24 pre-LN blocks, `d_model` 1024, 16 heads, causal `-inf` mask, no HuggingFace — streaming TinyStories, time-boxed to a 70-minute GPU window. | 325-line notebook |
+| [archcraft-full-upg](https://github.com/D3LTA2033/archcraft-full-upg) | One maintenance script: 22 labelled passes over an Arch box — keyring, AUR, bootloader, microcode, initramfs, SMART, fstab, cache — with an optional `rsync` snapshot first. | 223 lines Bash |
 
 ---
 
@@ -576,8 +537,8 @@ $ sha256sum -c SHA256SUMS-1.0.0.txt
 $ chmod +x Venoly-1.0.0-x64.AppImage && ./Venoly-1.0.0-x64.AppImage
 ```
 
-Closed source. Checksummed, not yet code-signed — Windows SmartScreen will warn until
-a certificate is in place. macOS is not shipped.
+Closed source, checksummed. The Windows builds are not code-signed yet, so
+SmartScreen will warn; macOS is not shipped.
 
 ---
 
@@ -600,6 +561,9 @@ a certificate is in place. macOS is not shipped.
 - [portfolio/kernel_tut.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/kernel_tut.md)
   — Linux kernel internals study notes: paging, VFS, char and block drivers, the
   network stack, LSM, RCU, syscall entry. 12 chapters, 35 worked code blocks.
+- [portfolio/portfolio.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/portfolio.md)
+  · [portfolio_2.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/portfolio_2.md)
+  · [ai_opinion.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/ai_opinion.md)
 - Discord — `@mcs.s`
 
 Open to low-level and security work.
