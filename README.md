@@ -552,6 +552,14 @@ SmartScreen will warn; macOS is not shipped.
 </picture>
 </p>
 
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/D3LTA2033/D3LTA2033/output/github-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/D3LTA2033/D3LTA2033/output/github-snake.svg">
+  <img alt="Contribution graph, eaten by a snake" src="https://raw.githubusercontent.com/D3LTA2033/D3LTA2033/output/github-snake.svg">
+</picture>
+</p>
+
 ---
 
 ## Elsewhere
