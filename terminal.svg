@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="330" viewBox="0 0 780 330" role="img" aria-label="terminal demo">
+<rect x="0.5" y="0.5" width="779" height="329" rx="10" fill="#1a1b27" stroke="#3d59a1"/>
+<rect x="0.5" y="0.5" width="779" height="30" rx="10" fill="#24283b"/>
+<circle cx="18" cy="15" r="5" fill="#f7768e"/><circle cx="36" cy="15" r="5" fill="#e0af68"/><circle cx="54" cy="15" r="5" fill="#9ece6a"/>
+<text x="390.0" y="19" text-anchor="middle" font-family="monospace" font-size="12" fill="#565f89">mcss@dev: ~</text>
+<text x="20" y="58" font-family="monospace" font-size="14" fill="#7aa2f7" xml:space="preserve" opacity="0">$ ./target/release/ress analyze /usr/bin/ls<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.0333;0.0413;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="82" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">elf         class=ELF64  machine=x86_64  pie=true  static=false  stripped=true<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1056;0.1136;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="106" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">hardening   relro=true  bind_now=true  nx=true<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.1778;0.1858;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="130" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">entropy     6.023<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.2500;0.2580;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="154" font-family="monospace" font-size="14" fill="#9ece6a" xml:space="preserve" opacity="0">RISK        score=14  category=Safe<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3222;0.3302;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="178" font-family="monospace" font-size="14" fill="#7aa2f7" xml:space="preserve" opacity="0">$ ./aether run examples/hello.ae<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.3944;0.4024;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="202" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">Built examples/hello.ae -&gt; examples/hello<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.4667;0.4747;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="226" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">Hello, World!<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.5389;0.5469;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="250" font-family="monospace" font-size="14" fill="#7aa2f7" xml:space="preserve" opacity="0">$ ./build/scsa --run demo.scsa<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6111;0.6191;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="274" font-family="monospace" font-size="14" fill="#c0caf5" xml:space="preserve" opacity="0">8<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.6833;0.6913;0.93;0.97;1" dur="18.0s" repeatCount="indefinite"/></text>
+<text x="20" y="298" font-family="monospace" font-size="14" fill="#7aa2f7">$</text>
+<rect x="36" y="286" width="8" height="15" fill="#c0caf5"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+</svg>
