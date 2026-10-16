@@ -1,13 +1,27 @@
-<h2 align="center">mcss</h2>
+<div align="center">
 
-<p align="center">
-  <i>Kernels, compilers, and the layer that decides which binaries are allowed to run.</i>
-</p>
+<img width="100%" alt="header" src="https://capsule-render.vercel.app/api?type=waving&height=220&color=0:1a1b27,50:3d59a1,100:bb9af7&text=mcss&fontColor=ffffff&fontSize=74&fontAlignY=36&animation=fadeIn&desc=kernels%20%C2%B7%20compilers%20%C2%B7%20execution%20control&descAlignY=60&descSize=18">
 
-<p align="center">
-  <a href="https://d3lta2033.nl"><img alt="site" src="https://img.shields.io/badge/site-d3lta2033.nl-313131?style=flat&labelColor=545454"></a>
-  <a href="https://venoly.nl"><img alt="venoly" src="https://img.shields.io/badge/product-venoly.nl-313131?style=flat&labelColor=545454"></a>
-</p>
+<a href="https://github.com/D3LTA2033">
+  <img alt="typing" src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=19&duration=2800&pause=1100&color=7AA2F7&center=true&vCenter=true&repeat=true&width=720&height=44&lines=Kernels%2C+compilers%2C+and+the+layer+that+decides+what+runs;61%2C144+hand-written+lines+across+11+repos;i686+kernel+with+no+libc%2C+ring+0+to+ring+3;exec+firewall+in+Rust+on+top+of+fanotify;hardening+wizard+that+writes+its+own+uninstaller;Shipping+Venoly%2C+a+security-first+chat+platform;Open+to+low-level+and+security+work">
+</a>
+
+<br>
+
+<a href="https://d3lta2033.nl"><img alt="site" src="https://img.shields.io/badge/site-d3lta2033.nl-313131?style=flat&labelColor=545454"></a>
+<a href="https://venoly.nl"><img alt="venoly" src="https://img.shields.io/badge/product-venoly.nl-313131?style=flat&labelColor=545454"></a>
+<img alt="discord" src="https://img.shields.io/badge/discord-%40mcs.s-313131?style=flat&labelColor=545454">
+<img alt="lines" src="https://img.shields.io/badge/measured-61%2C144_lines-313131?style=flat&labelColor=545454">
+<img alt="c-cpp" src="https://img.shields.io/badge/C%20%2B%20C%2B%2B-60.9%25_of_bytes-313131?style=flat&labelColor=545454">
+<a href="https://github.com/D3LTA2033?tab=followers"><img alt="followers" src="https://img.shields.io/github/followers/D3LTA2033?style=flat&labelColor=545454&color=313131"></a>
+
+<br><br>
+
+<img alt="stack" src="https://skillicons.dev/icons?i=c,cpp,rust,go,py,js,bash,linux,arch,git,nodejs,react&perline=12">
+
+</div>
+
+<br>
 
 I write low-level software: an i686 kernel with no libc, a systems language and its
 compiler, an execution firewall that gates `execve` from userspace, and a hardening
@@ -15,6 +29,30 @@ wizard that generates bash you can take back out again. Mostly C, C++ and Rust.
 
 Line counts come from `wc -l` on a clean clone; language bytes are GitHub's Linguist
 figures; the Venoly sizes were measured over the wire.
+
+<div align="center">
+
+| [Measured](#measured) | [Languages](#languages-by-measured-bytes) | [Map](#how-it-fits-together) | [Detail](#detail) | [More repos](#also-in-the-tree) | [Limits](#read-before-you-run) | [Shipping](#shipping) | [Verify](#verify-it-yourself) |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+
+</div>
+
+---
+
+## At a glance
+
+<div align="center">
+
+| | |
+|:--|:--|
+| **Kernel** | AstraOS — i686, no libc, ring 0 → ring 3, own GUI, own language |
+| **Compilers** | Aether (C++23, emits C), hvc (C → IR + register VM), SCSA (one file, tokenizer → VM) |
+| **Defence** | RESS — fanotify execution firewall, hand-rolled sandbox · secureforge — reversible hardening, 9 distros |
+| **Firmware** | Security-Recovery — 8-state recovery machine, A/B rotation, 16 MB SPI layout |
+| **Product** | Venoly — chat, voice/video, communities · desktop builds with checksums |
+| **Also** | a 302.7M-parameter char-level GPT from scratch, a local AI launcher in Go, a 22-pass Arch maintenance script |
+
+</div>
 
 ---
 
@@ -41,6 +79,15 @@ archcraft-full-upg    223   Bash      22-pass Arch maintenance script
 
 A few of these carry a second language that is not in the column: 984 lines of Python
 CLI in Security-Recovery, 712 lines of Bash under ai-rofi-launcher.
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#3d59a1','primaryTextColor':'#ffffff','lineColor':'#7aa2f7'}}}%%
+xychart-beta
+    title "Hand-written lines per repo"
+    x-axis ["aether", "AstraOS", "secureforge", "ModularX", "RESS", "hvc", "Sec-Rec", "SCSA", "rofi", "kitty", "archcraft"]
+    y-axis "lines" 0 --> 17000
+    bar [16419, 12740, 9666, 7579, 4430, 4039, 3474, 1151, 1098, 325, 223]
+```
 
 ---
 
@@ -78,6 +125,20 @@ C and C++ together are 60.9% of every byte. By **commit** volume the mix reads
 wizard and one library collection, and it compresses away the moment you count
 changes instead of characters.
 
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'pie1':'#7aa2f7','pie2':'#bb9af7','pie3':'#e0af68','pie4':'#f7768e','pie5':'#9ece6a','pie6':'#7dcfff','pie7':'#ff9e64','pie8':'#73daca','pie9':'#565f89','pieTitleTextColor':'#c0caf5','pieSectionTextColor':'#1a1b27','pieLegendTextColor':'#c0caf5'}}}%%
+pie showData title Bytes by language (Linguist, forks excluded)
+    "C" : 751494
+    "C++" : 733748
+    "JavaScript" : 416810
+    "Rust" : 159061
+    "Python" : 86370
+    "Makefile" : 76925
+    "HTML" : 53409
+    "Shell" : 52704
+    "Other (7 langs)" : 108305
+```
+
 **Where the bytes come from — every language traced to a project:**
 
 | Language | Concentrated in | Doing what |
@@ -107,7 +168,75 @@ changes instead of characters.
 
 ---
 
+## How it fits together
+
+Not a dependency graph — a map of which layer each project lives on.
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#24283b','primaryTextColor':'#c0caf5','primaryBorderColor':'#7aa2f7','lineColor':'#7aa2f7','secondaryColor':'#1a1b27','tertiaryColor':'#1a1b27'}}}%%
+flowchart TB
+  subgraph PROD["Product"]
+    V["Venoly<br/>chat · voice/video · communities"]
+    VD["venoly-desktops<br/>NSIS · portable · AppImage · deb"]
+  end
+
+  subgraph DEF["Defence"]
+    R["RESS<br/>fanotify exec firewall"]
+    SF["secureforge<br/>reversible hardening"]
+  end
+
+  subgraph LANG["Languages and compilers"]
+    AE["Aether<br/>C++23 → C → gcc -O2"]
+    HV["hvc<br/>C → IR → register VM"]
+    SC["SCSA<br/>tokenizer → bytecode → VM"]
+  end
+
+  subgraph LOW["Metal"]
+    A["AstraOS<br/>i686 kernel, no libc"]
+    SR["Security-Recovery<br/>firmware recovery"]
+  end
+
+  subgraph TOOL["Tooling and experiments"]
+    MX["ModularX"]
+    RF["ai-rofi-launcher"]
+    KB["kittybrain"]
+    AC["archcraft-full-upg"]
+  end
+
+  V --> VD
+  SF -. "hardens the hosts" .-> V
+  R -. "gates execve on" .-> A
+  A --> AS["Astracor<br/>in-kernel language"]
+  AE --> G["gcc"]
+
+  classDef prod fill:#3d59a1,stroke:#7aa2f7,color:#fff
+  classDef def fill:#5a3e8e,stroke:#bb9af7,color:#fff
+  class V,VD prod
+  class R,SF def
+```
+
+> The two dotted edges are intent, not code: RESS targets Linux generally, not
+> AstraOS, and secureforge is a tool for Linux hosts. They show the layer each one
+> protects.
+
+---
+
+## Patterns across the repos
+
+| | |
+|:--|:--|
+| **Counted, not claimed** | Every size in this file is `wc -l`, Linguist, or measured over the wire. |
+| **Observe before you enforce** | RESS ships an `--observe` mode that logs verdicts without gating, so a policy can be tuned before it bites. |
+| **Reversible by construction** | secureforge records a manifest and code-generates its own uninstaller from it. |
+| **Small trusted base** | AstraOS uses only three compiler-provided headers. SCSA is one translation unit. RESS hand-rolls its glob matcher and its sandbox. |
+| **Say what is unfinished** | secureforge prints full-screen ALPHA/BETA warnings before touching anything. Limits are listed [below](#read-before-you-run). |
+| **Checksums on shipped binaries** | Every Venoly desktop artifact has a line in `SHA256SUMS-1.0.0.txt`. |
+
+---
+
 ## Detail
+
+Click to open. Each section is measured from the repo, not estimated.
 
 <details>
 <summary><b>AstraOS</b> — 12,740 hand-written lines, no libc, its own GUI and its own language · <a href="https://github.com/D3LTA2033/AstraOS">repo</a></summary>
@@ -484,6 +613,14 @@ configs, deleting created files, re-enabling disabled services. Around 200 disti
 system paths appear across the generated scripts; the manifest records the subset it
 backs up, creates or disables, and the uninstaller is generated from that.
 
+```mermaid
+flowchart LR
+  W["wizard run"] --> M["manifest.json<br/>mode 600"]
+  W --> C["apply changes<br/>backup, create, disable"]
+  M --> U["secureforge-uninstall<br/>code-generated"]
+  U --> RB["restore configs<br/>delete created files<br/>re-enable services"]
+```
+
 Deception modules do what they say: `canary` plants a `passwords.txt`, a
 syntactically valid fake `id_rsa`, `.aws-credentials` and `db_backup.sql`, then runs
 `inotifywait -m -r -e access,open,read`, resolves the reading PID through `lsof`,
@@ -507,14 +644,87 @@ SecureForge Public License with a no-offensive-use clause.
 
 ## Also in the tree
 
-| repo | what it is | measured |
-|---|---|---|
-| [ai-rofi-launcher](https://github.com/D3LTA2033/ai-rofi-launcher) | Hotkey AI chat for Linux. A Go server with the web UI `go:embed`ded and bound to `127.0.0.1`, five providers, and API keys that stay server-side and never reach the browser. Bubble Tea TUI for config, rofi popup as the fallback surface. MIT. | 1,098 Go · 712 Bash |
-| [ModularX](https://github.com/D3LTA2033/ModularX) | 19 small libraries across C++, Rust, JS, Python, Ruby and x86-64 NASM, plus a JS orchestrator. | 7,579 lines, 6 languages |
-| [hvc](https://github.com/D3LTA2033/hvc) | A second compiler and register VM — lexer, precedence-climbing parser, scoped symbol table, IR builder, five optimizer passes, `HVBC` bytecode container. MIT. | 4,039 lines C |
-| [Security-Recovery](https://github.com/D3LTA2033/Security-Recovery-Core-SRC) | Firmware recovery: an 8-state machine, A/B backup rotation, a documented 16 MB SPI layout, and a Python CLI with HMAC-SHA256-tagged state and PAM-gated operations. | 3,474 C · 984 Python |
-| [kittybrain](https://github.com/D3LTA2033/kittybrain) | A ~302.7M-parameter character-level GPT in raw PyTorch — 24 pre-LN blocks, `d_model` 1024, 16 heads, causal `-inf` mask, no HuggingFace — streaming TinyStories, time-boxed to a 70-minute GPU window. | 325-line notebook |
-| [archcraft-full-upg](https://github.com/D3LTA2033/archcraft-full-upg) | One maintenance script: 22 labelled passes over an Arch box — keyring, AUR, bootloader, microcode, initramfs, SMART, fstab, cache — with an optional `rsync` snapshot first. | 223 lines Bash |
+<details>
+<summary><b>ai-rofi-launcher</b> — hotkey AI chat for Linux · 1,098 Go · 712 Bash · <a href="https://github.com/D3LTA2033/ai-rofi-launcher">repo</a></summary>
+
+<br>
+
+A Go server with the web UI `go:embed`ded and bound to `127.0.0.1`, five providers,
+and API keys that stay server-side and never reach the browser. Bubble Tea TUI for
+config, rofi popup as the fallback surface. MIT.
+
+The web UI is a single self-contained 467-line HTML file compiled into the binary.
+
+</details>
+
+<details>
+<summary><b>ModularX</b> — 19 small libraries, 6 languages · 7,579 lines · <a href="https://github.com/D3LTA2033/ModularX">repo</a></summary>
+
+<br>
+
+19 small libraries across C++, Rust, JS, Python, Ruby and x86-64 NASM, plus a JS
+orchestrator. Includes cache and logger libraries in C++, a small async cache crate in
+Rust, async utilities in Python, and 564 lines of x86-64 bit/SIMD utilities in NASM.
+
+</details>
+
+<details>
+<summary><b>hvc</b> — a second compiler and register VM · 4,039 lines of C · <a href="https://github.com/D3LTA2033/hvc">repo</a></summary>
+
+<br>
+
+Lexer, precedence-climbing parser, scoped symbol table, IR builder, five optimizer
+passes, and an `HVBC` bytecode container, executed by a register VM. MIT.
+
+</details>
+
+<details>
+<summary><b>Security-Recovery</b> — firmware recovery · 3,474 C · 984 Python · <a href="https://github.com/D3LTA2033/Security-Recovery-Core-SRC">repo</a></summary>
+
+<br>
+
+An 8-state recovery machine, A/B backup rotation, a documented 16 MB SPI layout, and a
+Python CLI with HMAC-SHA256-tagged state and PAM-gated operations.
+
+</details>
+
+<details>
+<summary><b>kittybrain</b> — a character-level GPT from scratch · 325-line notebook · <a href="https://github.com/D3LTA2033/kittybrain">repo</a></summary>
+
+<br>
+
+A ~302.7M-parameter character-level GPT in raw PyTorch — 24 pre-LN blocks, `d_model`
+1024, 16 heads, causal `-inf` mask, no HuggingFace — streaming TinyStories, time-boxed
+to a 70-minute GPU window.
+
+</details>
+
+<details>
+<summary><b>archcraft-full-upg</b> — one Arch maintenance script · 223 lines of Bash · <a href="https://github.com/D3LTA2033/archcraft-full-upg">repo</a></summary>
+
+<br>
+
+22 labelled passes over an Arch box — keyring, AUR, bootloader, microcode, initramfs,
+SMART, fstab, cache — with an optional `rsync` snapshot first.
+
+</details>
+
+---
+
+## Read before you run
+
+Every project has sharp edges. These are the ones that matter, stated up front.
+
+| Project | Know this first |
+|:--|:--|
+| **AstraOS** | Targets i686 only; needs `i686-elf-gcc` and `nasm`. Astracor is tree-walking with no closures. |
+| **RESS** | Enforcement needs `CAP_SYS_ADMIN`. Start with `--observe` — it runs the full analysis and policy path without gating anything. |
+| **Aether** | Four of the five optimizer passes are registered in the default pipeline. |
+| **SCSA** | Statements end with `;` — a newline-separated program compiles to one instruction. `main()` auto-installs to `~/.local/bin` before parsing `argv`. |
+| **secureforge** | Alpha/beta by its own warnings. Pass `--distro` explicitly and run it in a VM first. |
+| **kittybrain** | Time-boxed to a 70-minute GPU window; it is a from-scratch exercise, not a product. |
+| **Venoly desktop** | Closed source. Windows builds are not code-signed yet, so SmartScreen will warn. macOS is not shipped. |
+| **Language stats** | Linguist bytes include some generated build output in Makefile and CMake. Use the by-commit card for the real mix. |
 
 ---
 
@@ -526,6 +736,25 @@ desktop builds for Windows and Linux. Shipped bundles measure 1.39 MB of app JS,
 dedicated 635 KB LiveKit chunk for WebRTC voice and video, 427 KB of React and 333 KB
 of CSS; passkey auth via SimpleWebAuthn, realtime over socket.io, HSTS with a
 two-year max-age and `X-Frame-Options: DENY`.
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#24283b','primaryTextColor':'#c0caf5','primaryBorderColor':'#7aa2f7','lineColor':'#7aa2f7'}}}%%
+flowchart LR
+  U["web app"] -->|"HTTPS · HSTS 2y"| API["api.venoly.nl"]
+  D["desktop<br/>Windows · Linux"] --> API
+  API --> RT["socket.io<br/>realtime"]
+  API --> PK["passkeys<br/>SimpleWebAuthn"]
+  U --> LK["LiveKit<br/>WebRTC voice + video"]
+```
+
+```
+  shipped bundle sizes, measured over the wire
+
+  app JS      1.39 MB  ████████████████████████████████████████
+  LiveKit      635 KB  ██████████████████▎
+  React        427 KB  ████████████▎
+  CSS          333 KB  █████████▌
+```
 
 [venoly-desktops](https://github.com/D3LTA2033/venoly-desktops) ships four artifacts —
 NSIS per-user installer, a portable `.exe` for locked-down machines, an AppImage and a
@@ -541,7 +770,60 @@ SmartScreen will warn; macOS is not shipped.
 
 ---
 
-## Numbers
+## Verify it yourself
+
+<details>
+<summary><b>Reproduce the numbers</b></summary>
+
+<br>
+
+The method behind every line count above. Adjust the extensions per repo — the point
+is to count only hand-written source, with nothing vendored or generated:
+
+```console
+$ git clone https://github.com/D3LTA2033/<repo> && cd <repo>
+$ git ls-files | grep -E '\.(c|h|cpp|hpp|rs|go|py|sh|js|asm)$' | xargs wc -l | tail -1
+```
+
+Using `git ls-files` keeps ignored and untracked output (build directories,
+`node_modules`) out of the count.
+
+</details>
+
+<details>
+<summary><b>Run each project's own check</b></summary>
+
+<br>
+
+```console
+$ cargo check --workspace --all-targets            # RESS: zero errors, zero warnings
+$ ./target/release/ress analyze /usr/bin/ls        # RESS: score a binary
+$ node index.js --distro arch --list               # secureforge: list modules, change nothing
+$ ./aether run examples/hello.ae                   # Aether: end-to-end build and run
+$ ./build/scsa --run demo.scsa                     # SCSA: run a program
+$ make iso && make run                             # AstraOS: boot it in QEMU
+$ sha256sum -c SHA256SUMS-1.0.0.txt                # Venoly desktop: verify artifacts
+```
+
+</details>
+
+<details>
+<summary><b>Check the live product</b></summary>
+
+<br>
+
+```console
+$ curl -sI https://venoly.nl | grep -iE 'strict-transport|x-frame'
+$ curl -s https://api.venoly.nl/health
+```
+
+The headers to expect are HSTS with a two-year max-age and `X-Frame-Options: DENY`.
+
+</details>
+
+---
+
+## Activity
 
 <p align="center">
 <picture>
@@ -549,6 +831,23 @@ SmartScreen will warn; macOS is not shipped.
   <source media="(prefers-color-scheme: light)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=D3LTA2033&theme=github">
   <img alt="Contribution statistics" src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=D3LTA2033&theme=tokyonight">
 </picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=D3LTA2033&theme=tokyonight">
+  <source media="(prefers-color-scheme: light)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=D3LTA2033&theme=github">
+  <img alt="Profile details" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=D3LTA2033&theme=tokyonight">
+</picture>
+</p>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=D3LTA2033&theme=tokyonight&utcOffset=1">
+  <source media="(prefers-color-scheme: light)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=D3LTA2033&theme=github&utcOffset=1">
+  <img alt="Productive time" src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=D3LTA2033&theme=tokyonight&utcOffset=1">
+</picture>
+</p>
+
+<p align="center">
+  <img alt="Contribution graph" src="https://github-readme-activity-graph.vercel.app/graph?username=D3LTA2033&bg_color=1a1b27&color=7aa2f7&line=7aa2f7&point=c0caf5&area=true&area_color=7aa2f7&hide_border=true&radius=8">
 </p>
 
 <p align="center">
@@ -563,14 +862,25 @@ SmartScreen will warn; macOS is not shipped.
 
 ## Elsewhere
 
-- [d3lta2033.nl](https://d3lta2033.nl) — site
-- [venoly.nl](https://venoly.nl) — the platform
+| | |
+|:--|:--|
+| **Site** | [d3lta2033.nl](https://d3lta2033.nl) |
+| **Platform** | [venoly.nl](https://venoly.nl) |
+| **Discord** | `@mcs.s` |
+
+**Reading.**
+
 - [portfolio/kernel_tut.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/kernel_tut.md)
   — Linux kernel internals study notes: paging, VFS, char and block drivers, the
   network stack, LSM, RCU, syscall entry. 12 chapters, 35 worked code blocks.
 - [portfolio/portfolio.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/portfolio.md)
   · [portfolio_2.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/portfolio_2.md)
   · [ai_opinion.md](https://github.com/D3LTA2033/D3LTA2033/blob/main/portfolio/ai_opinion.md)
-- Discord — `@mcs.s`
 
-Open to low-level and security work.
+<div align="center">
+
+**Open to low-level and security work.**
+
+<img width="100%" alt="footer" src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:bb9af7,50:3d59a1,100:1a1b27&section=footer">
+
+</div>
