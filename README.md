@@ -14,10 +14,16 @@
 <img alt="lines" src="https://img.shields.io/badge/measured-61%2C144_lines-313131?style=flat&labelColor=545454">
 <img alt="c-cpp" src="https://img.shields.io/badge/C%20%2B%20C%2B%2B-60.9%25_of_bytes-313131?style=flat&labelColor=545454">
 <a href="https://github.com/D3LTA2033?tab=followers"><img alt="followers" src="https://img.shields.io/github/followers/D3LTA2033?style=flat&labelColor=545454&color=313131"></a>
+<img alt="api status" src="https://img.shields.io/website?url=https%3A%2F%2Fapi.venoly.nl%2Fhealth&label=api.venoly.nl&up_message=online&down_message=offline&style=flat&labelColor=545454&up_color=2ea043">
+<img alt="last commit" src="https://img.shields.io/github/last-commit/D3LTA2033/D3LTA2033?style=flat&labelColor=545454&color=313131">
 
 <br><br>
 
 <img alt="stack" src="https://skillicons.dev/icons?i=c,cpp,rust,go,py,js,bash,linux,arch,git,nodejs,react&perline=12">
+
+<br><br>
+
+<img src="assets/terminal.svg" width="720" alt="terminal demo">
 
 </div>
 
@@ -32,12 +38,12 @@ figures; the Venoly sizes were measured over the wire.
 
 <div align="center">
 
-| [Measured](#measured) | [Languages](#languages-by-measured-bytes) | [Map](#how-it-fits-together) | [Detail](#detail) | [More repos](#also-in-the-tree) | [Limits](#read-before-you-run) | [Shipping](#shipping) | [Verify](#verify-it-yourself) |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| [Numbers](#by-the-numbers) | [Measured](#measured) | [Languages](#languages-by-measured-bytes) | [Map](#how-it-fits-together) | [Detail](#detail) | [Repos](#also-in-the-tree) | [Pulse](#repo-pulse) | [Flags](#build-flags-and-scorecard) | [Limits](#read-before-you-run) | [Shipping](#shipping) | [Verify](#verify-it-yourself) |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 
 </div>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## At a glance
 
@@ -54,7 +60,24 @@ figures; the Venoly sizes were measured over the wire.
 
 </div>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
+
+## By the numbers
+
+Small figures that are easy to check against the source.
+
+<div align="center">
+
+| | | | |
+|:-:|:-:|:-:|:-:|
+| **16**<br>AstraOS syscalls | **48**<br>AstraOS ISR stubs | **18**<br>SCSA opcodes | **12**<br>RESS policy predicates |
+| **10**<br>RESS crates | **5**<br>RESS sandbox namespaces | **9**<br>secureforge distros | **23**<br>secureforge modules |
+| **27**<br>Astracor builtins | **17**<br>Aether keywords | **18**<br>Aether CLI subcommands | **10**<br>AstraOS capability bits |
+| **16**<br>SCSA registers | **64 MiB**<br>SCSA mmap RAM | **302.7M**<br>kittybrain parameters | **22**<br>archcraft passes |
+
+</div>
+
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Measured
 
@@ -89,7 +112,7 @@ xychart-beta
     bar [16419, 12740, 9666, 7579, 4430, 4039, 3474, 1151, 1098, 325, 223]
 ```
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Languages, by measured bytes
 
@@ -166,7 +189,7 @@ pie showData title Bytes by language (Linguist, forks excluded)
 </picture>
 </p>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## How it fits together
 
@@ -219,7 +242,7 @@ flowchart TB
 > AstraOS, and secureforge is a tool for Linux hosts. They show the layer each one
 > protects.
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Patterns across the repos
 
@@ -232,7 +255,32 @@ flowchart TB
 | **Say what is unfinished** | secureforge prints full-screen ALPHA/BETA warnings before touching anything. Limits are listed [below](#read-before-you-run). |
 | **Checksums on shipped binaries** | Every Venoly desktop artifact has a line in `SHA256SUMS-1.0.0.txt`. |
 
----
+### The same work, as a map
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#24283b','primaryTextColor':'#c0caf5','primaryBorderColor':'#7aa2f7','lineColor':'#7aa2f7'}}}%%
+mindmap
+  root((mcss))
+    Kernels
+      AstraOS
+      Security-Recovery
+    Compilers
+      Aether
+      hvc
+      SCSA
+    Defence
+      RESS
+      secureforge
+    Product
+      Venoly
+      venoly-desktops
+    Experiments
+      kittybrain
+      ai-rofi-launcher
+      archcraft-full-upg
+```
+
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Detail
 
@@ -324,6 +372,17 @@ bitmap font; PS/2 keyboard and mouse, serial, RTC, PIT, VGA text. On top of that
 518-line compositing window manager, 1,860 lines of built-in applications — terminal,
 multi-tab code editor, file manager, settings — and a 609-line first-boot installer.
 
+```mermaid
+flowchart BT
+  HW["x86 hardware<br/>PIT · PS/2 · RTC · serial · VESA"] --> BOOT["boot.asm<br/>Multiboot 1, loaded at 1 MiB"]
+  BOOT --> MM["memory<br/>pmm · vmm · kheap · page_fault"]
+  MM --> SCH["scheduler<br/>50 ms quantum"]
+  SCH --> SYS["16 syscalls + capabilities"]
+  SYS --> VFS["VFS<br/>ramfs · devfs · initramfs · procfs · pipes"]
+  VFS --> WM["compositing window manager"]
+  WM --> APP["terminal · editor · file manager · settings"]
+```
+
 **Astracor** is a language living inside the kernel — a 1,434-line recursive-descent
 tree-walking interpreter with dynamic typing, user functions, `if/elif/else`, `while`,
 `for-in`, arrays, parent-linked scope environments, 27 native builtins, and four
@@ -374,6 +433,21 @@ with `FAN_CLASS_CONTENT | FAN_UNLIMITED_QUEUE | FAN_UNLIMITED_MARKS`, the whole 
 mount marked `FAN_MARK_MOUNT | FAN_OPEN_EXEC_PERM`, raw `fanotify_event_metadata`
 read off the fd, a `fanotify_response` of `FAN_ALLOW` (0x01) or `FAN_DENY` (0x02)
 written back. The kernel genuinely holds the exec until the answer arrives.
+
+```mermaid
+sequenceDiagram
+    participant P as process
+    participant K as kernel (fanotify)
+    participant A as ress-agent
+    participant E as policy engine
+    P->>K: execve()
+    K-->>A: FAN_OPEN_EXEC_PERM event, exec held
+    A->>A: parse ELF, entropy, imports, heuristics
+    A->>E: risk score 0-100 plus features
+    E-->>A: verdict from the first matching rule
+    A->>K: fanotify_response (FAN_ALLOW or FAN_DENY)
+    K-->>P: exec proceeds or is refused
+```
 
 **Scoring.** A `goblin` ELF parse extracting RELRO, BIND_NOW, NX, PIE, static,
 stripped, RPATH, RUNPATH, SONAME, interpreter, `DT_NEEDED`, imports and exports.
@@ -543,6 +617,8 @@ fixed-width instruction records.
    ...      280   Instr[n]
 ```
 
+The magic `0x53430000` is the bytes `0x53 0x43` — ASCII `S` `C` — followed by two zero bytes.
+
 **The ISA.** The VM's dispatch switch executes eighteen opcodes:
 
 | class | opcodes |
@@ -640,7 +716,7 @@ SecureForge Public License with a no-offensive-use clause.
 
 </details>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Also in the tree
 
@@ -709,7 +785,48 @@ SMART, fstab, cache — with an optional `rsync` snapshot first.
 
 </details>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
+
+## Repo pulse
+
+Live badges, straight from GitHub — they update on their own.
+
+| repo | top language | stars | last commit | license |
+|:--|:-:|:-:|:-:|:-:|
+| [AstraOS](https://github.com/D3LTA2033/AstraOS) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/AstraOS?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/AstraOS?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/AstraOS?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/AstraOS?style=flat&labelColor=545454&color=313131&label=) |
+| [RESS](https://github.com/D3LTA2033/RESS-Remote-Execution-Security-System) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/RESS-Remote-Execution-Security-System?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/RESS-Remote-Execution-Security-System?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/RESS-Remote-Execution-Security-System?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/RESS-Remote-Execution-Security-System?style=flat&labelColor=545454&color=313131&label=) |
+| [aether](https://github.com/D3LTA2033/aether) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/aether?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/aether?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/aether?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/aether?style=flat&labelColor=545454&color=313131&label=) |
+| [SCSA](https://github.com/D3LTA2033/Super-Compiling-Security-Assemblor) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/Super-Compiling-Security-Assemblor?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/Super-Compiling-Security-Assemblor?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/Super-Compiling-Security-Assemblor?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/Super-Compiling-Security-Assemblor?style=flat&labelColor=545454&color=313131&label=) |
+| [secureforge](https://github.com/D3LTA2033/secureforge) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/secureforge?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/secureforge?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/secureforge?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/secureforge?style=flat&labelColor=545454&color=313131&label=) |
+| [hvc](https://github.com/D3LTA2033/hvc) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/hvc?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/hvc?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/hvc?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/hvc?style=flat&labelColor=545454&color=313131&label=) |
+| [Security-Recovery](https://github.com/D3LTA2033/Security-Recovery-Core-SRC) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/Security-Recovery-Core-SRC?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/Security-Recovery-Core-SRC?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/Security-Recovery-Core-SRC?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/Security-Recovery-Core-SRC?style=flat&labelColor=545454&color=313131&label=) |
+| [ModularX](https://github.com/D3LTA2033/ModularX) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/ModularX?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/ModularX?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/ModularX?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/ModularX?style=flat&labelColor=545454&color=313131&label=) |
+| [ai-rofi-launcher](https://github.com/D3LTA2033/ai-rofi-launcher) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/ai-rofi-launcher?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/ai-rofi-launcher?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/ai-rofi-launcher?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/ai-rofi-launcher?style=flat&labelColor=545454&color=313131&label=) |
+| [kittybrain](https://github.com/D3LTA2033/kittybrain) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/kittybrain?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/kittybrain?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/kittybrain?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/kittybrain?style=flat&labelColor=545454&color=313131&label=) |
+| [archcraft-full-upg](https://github.com/D3LTA2033/archcraft-full-upg) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/archcraft-full-upg?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/archcraft-full-upg?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/archcraft-full-upg?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/archcraft-full-upg?style=flat&labelColor=545454&color=313131&label=) |
+| [venoly-desktops](https://github.com/D3LTA2033/venoly-desktops) | ![lang](https://img.shields.io/github/languages/top/D3LTA2033/venoly-desktops?style=flat&labelColor=545454&color=313131&label=) | ![stars](https://img.shields.io/github/stars/D3LTA2033/venoly-desktops?style=flat&labelColor=545454&color=313131&label=) | ![commit](https://img.shields.io/github/last-commit/D3LTA2033/venoly-desktops?style=flat&labelColor=545454&color=313131&label=) | ![license](https://img.shields.io/github/license/D3LTA2033/venoly-desktops?style=flat&labelColor=545454&color=313131&label=) |
+
+<img src="assets/divider.svg" width="100%" alt="">
+
+## Build flags and scorecard
+
+Strict flags where there is a toolchain to be strict with.
+
+| Project | Toolchain and flags |
+|:--|:--|
+| **AstraOS** | `i686-elf-gcc` · `-m32 -std=c11 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -Werror -O2` · `nasm` · `grub-mkrescue` · `qemu-system-i386` |
+| **SCSA** | `-O2 -Wall -Wextra -fstack-protector-strong -D_FORTIFY_SOURCE=2 -fPIE -pie -Wl,-z,relro,-z,now` → PIE ELF |
+| **Aether** | `g++ -std=c++23 -Isrc -fsyntax-only` on each core unit · generated C goes through `gcc -O2` |
+| **RESS** | `cargo check --workspace --all-targets` |
+
+| Check | Result |
+|:--|:--|
+| AstraOS kernel translation units | 32 of 32 compile clean under `-Werror` |
+| AstraOS userland programs | 3 of 3 compile clean |
+| RESS workspace | 0 errors, 0 warnings across 10 crates |
+| Aether core translation units | 8 of 8 pass `-fsyntax-only` |
+
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Read before you run
 
@@ -726,9 +843,14 @@ Every project has sharp edges. These are the ones that matter, stated up front.
 | **Venoly desktop** | Closed source. Windows builds are not code-signed yet, so SmartScreen will warn. macOS is not shipped. |
 | **Language stats** | Linguist bytes include some generated build output in Makefile and CMake. Use the by-commit card for the real mix. |
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Shipping
+
+<p>
+<img alt="web" src="https://img.shields.io/website?url=https%3A%2F%2Fvenoly.nl&label=venoly.nl&up_message=online&down_message=offline&style=flat&labelColor=545454&up_color=2ea043">
+<img alt="api" src="https://img.shields.io/website?url=https%3A%2F%2Fapi.venoly.nl%2Fhealth&label=api.venoly.nl&up_message=online&down_message=offline&style=flat&labelColor=545454&up_color=2ea043">
+</p>
 
 **[Venoly](https://venoly.nl)** — a security-first chat, voice/video and communities
 platform I build and ship. Live web app, live API (`api.venoly.nl/health`), and
@@ -768,7 +890,7 @@ $ chmod +x Venoly-1.0.0-x64.AppImage && ./Venoly-1.0.0-x64.AppImage
 Closed source, checksummed. The Windows builds are not code-signed yet, so
 SmartScreen will warn; macOS is not shipped.
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Verify it yourself
 
@@ -821,7 +943,7 @@ The headers to expect are HSTS with a two-year max-age and `X-Frame-Options: DEN
 
 </details>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Activity
 
@@ -851,6 +973,14 @@ The headers to expect are HSTS with a two-year max-age and `X-Frame-Options: DEN
 </p>
 
 <p align="center">
+  <img alt="Streak" src="https://streak-stats.demolab.com?user=D3LTA2033&theme=tokyonight&hide_border=true&background=00000000">
+</p>
+
+<p align="center">
+  <img alt="Trophies" src="https://github-profile-trophy.vercel.app/?username=D3LTA2033&theme=tokyonight&no-frame=true&no-bg=true&row=1&column=7&margin-w=8">
+</p>
+
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/D3LTA2033/D3LTA2033/output/github-snake-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/D3LTA2033/D3LTA2033/output/github-snake.svg">
@@ -858,7 +988,7 @@ The headers to expect are HSTS with a two-year max-age and `X-Frame-Options: DEN
 </picture>
 </p>
 
----
+<img src="assets/divider.svg" width="100%" alt="">
 
 ## Elsewhere
 
@@ -879,7 +1009,7 @@ The headers to expect are HSTS with a two-year max-age and `X-Frame-Options: DEN
 
 <div align="center">
 
-**Open to low-level and security work.**
+<img alt="open to work" src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=17&duration=3200&pause=1500&color=BB9AF7&center=true&vCenter=true&width=520&height=36&lines=Open+to+low-level+and+security+work;Say+hi+on+Discord%3A+%40mcs.s;Thanks+for+reading+this+far">
 
 <img width="100%" alt="footer" src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:bb9af7,50:3d59a1,100:1a1b27&section=footer">
 
